@@ -14,9 +14,13 @@ body {
 }
 
 .welcomeContainer {
-    padding-top: 5%;
+    padding-top: 7.5%;
     color: white;
     font-size: 3.5em;
+}
+
+.navbar {
+    font-size: 1.5em;
 }
 
 #container {
