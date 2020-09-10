@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <div class="date">
-            It is {{day}}, {{date}} of {{month}}.
+            {{day}}, {{date}} {{month}}
         </div>
         <div class="time">
             {{time}}
@@ -21,13 +21,14 @@
                 date: "",
                 time: "",
                 day: "",
+                month: "",
             }
         },
         methods: {
             getNow() {
                 var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-                var months = ["January", "February", "March", "April", "May", "June",
-                    "July", "August", "September", "October", "November", "December"
+                var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                    "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"
                 ];
                 const today = new Date();
                 this.date = today.getDate();
