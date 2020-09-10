@@ -2,10 +2,11 @@
   <div>
     <navbar></navbar>
     <div class="container">
-      <div class="welcomeContainer">
+      <div class="header welcomeContainer">
         <h1>Welcome back, {{name}}</h1>
       </div>
       <div class="timeContainer">
+        <date-time></date-time>
       </div>
       <div class="home">
         <div class="schedule">
@@ -29,9 +30,11 @@
 <script>
 
 import Navbar from "../components/Navbar";
+import DateTime from "../components/DateTime";
 export default {
   name: 'Home',
   components: {
+    DateTime,
     Navbar
   },
   data() {
