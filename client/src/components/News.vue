@@ -43,12 +43,15 @@
              * @returns {Promise<void>}
              */
             async getNews() {
-                this.newsData = await this.newsApi.fetch();
-                console.log(this.newsData);
+                this.newsData = await this.newsApi.fetch();c
                 this.cleanNewsDescription();
 
             },
 
+
+            /**
+             * Removes tags given inside of the desciption headers.
+             */
             cleanNewsDescription() {
                 for (let i = 0; i < this.newsData.articles.length; i++) {
                     let article = this.newsData.articles[i];
