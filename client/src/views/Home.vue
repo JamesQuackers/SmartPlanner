@@ -8,6 +8,9 @@
       <div class="timeContainer">
         <date-time></date-time>
       </div>
+      <div class="weatherContainer">
+        <weather></weather>
+      </div>
       <div class="home">
         <div class="schedule">
 
@@ -31,9 +34,11 @@
 
 import Navbar from "../components/Navbar";
 import DateTime from "../components/DateTime";
+import Weather from "../components/Weather";
 export default {
   name: 'Home',
   components: {
+    Weather,
     DateTime,
     Navbar
   },
