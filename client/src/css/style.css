@@ -1,0 +1,22 @@
+body {
+    background-image: url("../assets/background.jpg");
+    min-height: 1080px;
+    /*position: fixed;*/
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    alignment: top;
+    size: 20px;
+}
+
+.welcomeContainer {
+    padding-top: 10%;
+    font-family: 'Bree Serif', serif;
+    color: white;
+    font-size: 3.5em;
+}
+
+
+#container {
+    color: aliceblue;
+    background-color: aliceblue;
+}
