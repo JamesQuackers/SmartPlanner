@@ -19,7 +19,7 @@
         <template slot="end">
             <b-navbar-item href="#">
                 <div>
-                    <img v-bind:src="icon" alt="weather" id="weatherIcon">
+                    <img v-bind:src="icon" alt=" " id="weatherIcon">
                 </div>
                 <div class="tempNav">
                     {{temperature}}°
@@ -72,7 +72,7 @@
              * @param route - The route that is taken
              */
             routeTo(route) {
-                this.$router.push(route);
+                this.$router.push(route).catch(() => {});
             }
         }
     }

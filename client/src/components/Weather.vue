@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <div>
-            <img v-bind:src="icon" alt="weather">
+            <img v-bind:src="icon" alt=" ">
         </div>
         {{city}} {{weatherDescription}} {{temperature}}°
         <div>
