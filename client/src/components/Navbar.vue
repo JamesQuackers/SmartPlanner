@@ -9,8 +9,24 @@
             <b-navbar-item v-on:click="routeTo('/')">
                 Home
             </b-navbar-item>
+            <b-navbar-dropdown label="Ingredients">
+                <b-navbar-item v-on:click="routeTo('/ingredient/add')">
+                    Add Ingredient
+                </b-navbar-item>
+                <b-navbar-item v-on:click="routeTo('/ingredient/edit')">
+                    Edit Ingredient
+                </b-navbar-item>
+            </b-navbar-dropdown>
+            <b-navbar-dropdown label="Recipes">
+                <b-navbar-item v-on:click="routeTo('/recipe/add')">
+                    Add Recipe
+                </b-navbar-item>
+                <b-navbar-item v-on:click="routeTo('/recipe/edit')">
+                    Modify Recipe
+                </b-navbar-item>
+            </b-navbar-dropdown>
             <b-navbar-item v-on:click="routeTo('/food')">
-                Food
+                Food Schedule
             </b-navbar-item>
             <b-navbar-item href="#">
                 Calendar
@@ -72,7 +88,8 @@
              * @param route - The route that is taken
              */
             routeTo(route) {
-                this.$router.push(route).catch(() => {});
+                this.$router.push(route).catch(() => {
+                });
             }
         }
     }
