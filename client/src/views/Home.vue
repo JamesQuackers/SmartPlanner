@@ -19,7 +19,7 @@
 
         </div>
         <div class="newsContainer">
-
+          <news></news>
         </div>
         <div class="nextEvent">
 
@@ -35,9 +35,11 @@
 import Navbar from "../components/Navbar";
 import DateTime from "../components/DateTime";
 import Weather from "../components/Weather";
+import News from "../components/News";
 export default {
   name: 'Home',
   components: {
+    News,
     Weather,
     DateTime,
     Navbar

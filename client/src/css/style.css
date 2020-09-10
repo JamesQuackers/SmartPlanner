@@ -13,6 +13,12 @@ body {
     font-size: 2em;
 }
 
+.subheader {
+    color: white;
+    font-family: 'Bree Serif', serif;
+    font-size: 1.5em;
+}
+
 .welcomeContainer {
     padding-top: 7.5%;
     color: white;

@@ -2,7 +2,7 @@ import axios from "axios"
 
 
 const WEATHER_URL = `https://api.openweathermap.org/data/2.5/`;
-
+const NEWS_URL = 'http://newsapi.org/v2/';
 
 /**
  * Creates an instance of the open weather map API
@@ -12,6 +12,10 @@ const openWeatherMap = axios.create({
     timeout: 1000
 });
 
+const news = axios.create({
+    baseURL: NEWS_URL,
+    timeout: 1000
+});
 
 export class weatherApi {
     /**
@@ -37,6 +41,25 @@ export class weatherApi {
      */
     async fetch(lat, lng) {
         return openWeatherMap.get( "onecall?lat=" + lat + "&lon=" + lng + `&exclude=hourly,daily&appid=${process.env.VUE_APP_WEATHER_API_KEY}`).then(function (response) {
+            return response.data;
+
+        }).catch(function () {
+            return [];
+
+        });
+    }
+}
+
+
+
+export class newsApi {
+
+    /**
+     * Called to fetch all headlines, https://newsapi.org/docs/endpoints/top-headlines
+     * @returns the requested data from the external API or an empty list if unavailable
+     */
+    async fetch() {
+        return news.get( `top-headlines?country=nz&pageSize=5&apiKey=${process.env.VUE_APP_NEWS_KEY}`).then(function (response) {
             return response.data;
 
         }).catch(function () {
