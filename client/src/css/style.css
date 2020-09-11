@@ -19,6 +19,24 @@ body {
     font-size: 1.5em;
 }
 
+.black {
+    color: #222222;
+}
+.nextEvent {
+    padding-bottom: 50px;
+}
+
+.customContainer {
+    background-color: rgba(255,255,255, 0.4);
+    border-radius: 10px;
+}
+
+#newsItem {
+    padding: 10px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
 .welcomeContainer {
     padding-top: 7.5%;
     color: white;

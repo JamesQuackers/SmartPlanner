@@ -3,7 +3,7 @@
         <div>
             <img v-bind:src="icon" alt=" ">
         </div>
-        {{city}} {{weatherDescription}} {{temperature}}°
+        {{city}}  {{temperature}}° {{weatherDescription}}
         <div>
             Feels Like: {{feelsTemperature}}°
         </div>

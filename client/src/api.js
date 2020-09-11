@@ -9,7 +9,7 @@ const NEWS_URL = 'http://newsapi.org/v2/';
  */
 const openWeatherMap = axios.create({
     baseURL: WEATHER_URL,
-    timeout: 1000
+    timeout: 2000
 });
 
 const news = axios.create({

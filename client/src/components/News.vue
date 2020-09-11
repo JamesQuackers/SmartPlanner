@@ -1,19 +1,19 @@
 <template>
     <div>
-        <div class="hero-head">
 
-        </div>
-        <div class="hero-body" v-for="item in this.newsData.articles" :key="item.url">
-            <div class="header">
-                {{item.title}}.
+        <div class="container is-widescreen customContainer">
+            <div class="header black">
+                News
             </div>
+            <div id="newsItem" v-for="item in this.newsData.articles" :key="item.url">
+                <div class="header black">
+                    {{item.title}}.
+                </div>
 
-            <div class="subheader">
-                {{item.description}}
+<!--                <div class="subheader black">-->
+<!--                    {{item.description}}-->
+<!--                </div>-->
             </div>
-        </div>
-        <div class="hero-foot">
-
         </div>
     </div>
 </template>
@@ -43,7 +43,7 @@
              * @returns {Promise<void>}
              */
             async getNews() {
-                this.newsData = await this.newsApi.fetch();c
+                this.newsData = await this.newsApi.fetch();
                 this.cleanNewsDescription();
 
             },
