@@ -9,6 +9,14 @@ npm install
 ```
 npm run serve
 ```
+### Run Firebase-CLI
+```
+cd functions
+npm run serve
+```
+
+
+
 
 ### Compiles and minifies for production
 ```
