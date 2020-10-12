@@ -1,8 +1,13 @@
 import axios from "axios"
 
-
+const SERVER_URL = process.env.VUE_APP_API_BASE_URL;
 const WEATHER_URL = `https://api.openweathermap.org/data/2.5/`;
 const NEWS_URL = 'http://newsapi.org/v2/';
+
+const server = axios.create({
+    baseURL: SERVER_URL,
+    timeout: 5000
+});
 
 /**
  * Creates an instance of the open weather map API
@@ -68,3 +73,34 @@ export class newsApi {
         });
     }
 }
+export class UserApiClient {
+    constructor(urlRoot) {
+        this.urlRoot = urlRoot;
+    }
+
+
+    /**
+     * Adds user to the map in JSON format
+     * @param ingredientData
+     */
+    async postIngredient(ingredientData) {
+        let returnResponse = {};
+        return server.post("/ingredients/add", ingredientData).then(function (response) {
+            returnResponse = {
+                status: response.status
+            };
+
+            return returnResponse;
+
+        }).catch(function (error) {
+            returnResponse = {
+                status: error.status,
+                data: error
+            };
+
+            return returnResponse;
+
+        });
+    }
+}
+
