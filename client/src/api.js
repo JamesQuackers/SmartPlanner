@@ -6,7 +6,7 @@ const NEWS_URL = 'http://newsapi.org/v2/';
 
 const server = axios.create({
     baseURL: SERVER_URL,
-    timeout: 5000
+    timeout: 10000
 });
 
 /**
@@ -88,6 +88,56 @@ export class UserApiClient {
         return server.post("/ingredients/add", ingredientData).then(function (response) {
             returnResponse = {
                 status: response.status
+            };
+
+            return returnResponse;
+
+        }).catch(function (error) {
+            returnResponse = {
+                status: error.status,
+                data: error
+            };
+
+            return returnResponse;
+
+        });
+    }
+
+    /**
+     * Gets all ingredients from the database.
+     * @returns an array of ingredient objects
+     */
+    async getAllIngredients() {
+        let returnResponse = {};
+        return server.get("/ingredients").then(function (response) {
+            returnResponse = {
+                status: response.status,
+                data: response.data
+            };
+
+            return returnResponse;
+
+        }).catch(function (error) {
+            returnResponse = {
+                status: error.status,
+                data: error
+            };
+
+            return returnResponse;
+
+        });
+    }
+
+    /**
+     * Takes an ingredientId and deletes it from the database.
+     * @param ingredientId - Id of the ingredient to be deleted
+     */
+    async deleteIngredient(ingredientId) {
+        let returnResponse = {};
+        return server.delete(`/ingredients/${ingredientId}`).then(function (response) {
+            returnResponse = {
+                status: response.status,
+                data: response.data
             };
 
             return returnResponse;

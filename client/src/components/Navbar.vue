@@ -10,11 +10,11 @@
                 Home
             </b-navbar-item>
             <b-navbar-dropdown label="Ingredients">
+                <b-navbar-item v-on:click="routeTo('/ingredients')">
+                    View Ingredients
+                </b-navbar-item>
                 <b-navbar-item v-on:click="routeTo('/ingredient/add')">
                     Add Ingredient
-                </b-navbar-item>
-                <b-navbar-item v-on:click="routeTo('/ingredient/edit')">
-                    Edit Ingredient
                 </b-navbar-item>
             </b-navbar-dropdown>
             <b-navbar-dropdown label="Recipes">

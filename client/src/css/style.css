@@ -51,8 +51,7 @@ body {
 .foodContainer {
     color: #222222;
     font-size: 1.5em;
-    padding-left: 50px;
-    padding-right: 100px;
+    padding: 2%;
 }
 
 .navbar {
@@ -82,4 +81,60 @@ Custom nprogress css
 
 #submitButton {
     alignment: right;
+}
+
+.itemCard {
+    background: #eeeeee;
+    margin: 1%;
+    padding: 5%;
+
+    border-radius: 5px;
+}
+
+.item-left {
+    alignment: left;
+    text-align: left;
+    padding: 1%;
+}
+.item-right {
+    alignment: right;
+    text-align: right;
+    padding: 1%;
+}
+
+.float-right {
+    float: right;
+    padding: 1%;
+}
+
+.categories {
+    font-size: 1em;
+    float: left;
+}
+
+.ingredientInfo {
+    font-size: 0.7em;
+}
+
+ion-icon {
+    font-size: 24px;
+}
+
+.inline-icon {
+    position: relative;
+    top: 6px;
+    left: 5px;
+    margin-right: 1%;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.ingredientTitle {
+    padding-left: 3%;
+}
+
+.spanned {
+    padding-right: 2%;
 }

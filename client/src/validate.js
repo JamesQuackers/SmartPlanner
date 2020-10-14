@@ -1,37 +1,64 @@
 export class Validate {
 
+    async validateIngredientName(name, errors) {
+        if (name === "") {
+            errors.fields.push("name");
+            errors.messages.push("Name cannot be empty!");
+        }
+    }
+
+    async validateIngredientPrice(price, errors) {
+        if (price < 0.01) {
+            errors.fields.push("price");
+            errors.messages.push("Price cannot be less than $0.01!")
+        }
+        if (isNaN(price)) {
+            errors.fields.push("price");
+            errors.messages.push("Price must be a number!")
+        }
+    }
+
+    async validateIngredientWeight(totalWeight, errors) {
+        if (totalWeight <= 0) {
+            errors.fields.push("totalWeight");
+            errors.messages.push("Weight cannot be less than 0g!")
+        }
+        if (isNaN(totalWeight)) {
+            errors.fields.push("totalWeight");
+            errors.messages.push("Weight must be a number!")
+        }
+    }
+
+    async validateIngredientServingSize(servingSize, totalWeight, errors) {
+        if (servingSize !== undefined) {
+
+            if (servingSize <= 0) {
+                errors.fields.push("servingSize");
+                errors.messages.push("Serving Size cannot be less than 0g!")
+            }
+            if (isNaN(servingSize)) {
+                errors.fields.push("servingSize");
+                errors.messages.push("Serving Size must be a number!")
+            }
+            if (totalWeight !== undefined) {
+                if (servingSize > totalWeight) {
+                    errors.fields.push("servingSize");
+                    errors.fields.push("totalWeight");
+                    errors.messages.push("Serving Size cannot be exceed the total weight!");
+                    errors.messages.push("Serving Size cannot be exceed the total weight!");
+                }
+            }
+        }
+    }
+
     async validateIngredient(ingredient) {
         let errors = {
             fields: [],
             messages: []
         };
-        if (ingredient.name === "") {
-            errors.fields.push("name");
-            errors.messages.push("Name cannot be empty!");
-        }
-
-        if (ingredient.price < 0.01) {
-            errors.fields.push("price");
-            errors.messages.push("Price cannot be less than $0.01!")
-        }
-
-        if (ingredient.totalWeight <= 0) {
-            errors.fields.push("totalWeight");
-            errors.messages.push("Weight cannot be less than 0g!")
-        }
-
-        if (ingredient.servingSize <= 0) {
-            errors.fields.push("servingSize");
-            errors.messages.push("Serving Size cannot be less than 0g!")
-        }
-
-        if (ingredient.servingSize < ingredient.totalWeight) {
-            errors.fields.push("servingSize");
-            errors.fields.push("totalWeight");
-            errors.messages.push("Serving Size cannot be exceed the total weight!");
-            errors.messages.push("Serving Size cannot be exceed the total weight!");
-        }
-
+        this.validateIngredientName(ingredient.name, errors);
+        this.validateIngredientPrice(ingredient.price, errors);
+        this.validateIngredientWeight(ingredient.totalWeight, errors);
 
         return errors;
 

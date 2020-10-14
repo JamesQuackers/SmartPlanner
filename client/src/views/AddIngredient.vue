@@ -1,5 +1,6 @@
 <template>
     <div>
+        <toast ref="toast"></toast>
         <b-loading :is-full-page="true" v-model="isLoading"></b-loading>
         <navbar></navbar>
         <div class="container">
@@ -22,8 +23,9 @@
                         Price
                     </div>
                     <div class="column">
-                        <b-field :type="this.priceHasError"  :message="this.priceErrorMessage">
-                            <b-input type="number" id="priceInput" v-model="price" placeholder="$0.00"></b-input>
+                        <b-field :type="this.priceHasError" :message="this.priceErrorMessage">
+                            <b-input type="number" id="priceInput" v-model="price" placeholder="$0.00"
+                                     step=".01"></b-input>
                         </b-field>
                     </div>
                 </div>
@@ -39,11 +41,20 @@
                 </div>
                 <div class="columns">
                     <div class="column">
-                        Serving Size
+                        Categories
                     </div>
                     <div class="column">
-                        <b-field :type="this.servingSizeHasError" :message="this.servingSizeErrorMessage">
-                            <b-input type="number" id="servingSizeInput" v-model="servingSize" placeholder="50"></b-input>
+                        <b-field label="">
+                            <b-taginput
+                                    v-model="categories"
+                                    :data="filteredCategories"
+                                    @typing="getFilteredCategories"
+                                    :allow-new="true"
+                                    :open-on-focus="true"
+                                    ellipsis
+                                    icon="label"
+                                    :placeholder="categoryPlaceholder">
+                            </b-taginput>
                         </b-field>
                     </div>
                 </div>
@@ -69,17 +80,20 @@
 
 <script>
     import Navbar from "../components/Navbar";
+    import Toast from "../components/Toast";
     import {UserApiClient} from "../api.js";
     import {Validate} from "../validate";
 
     export default {
         name: "AddIngredient",
         components: {
-            Navbar
+            Navbar,
+            Toast
         },
         mounted() {
             this.api = new UserApiClient();
             this.validate = new Validate();
+            this.filteredCategories = this.defaultCategories;
         },
         data() {
             return {
@@ -88,7 +102,10 @@
                 name: "",
                 price: "",
                 totalWeight: "",
-                servingSize: "",
+                categories: [],
+                defaultCategories: ["Protein", "Vegetable", "Carbohydrate", "Chicken", "Pork", "Beef", "Lamb", "Fish", "Seafood", "Extra", "Filler"],
+                filteredCategories: [],
+                categoryPlaceholder: "Add a new or existing category",
 
                 errors: {
                     fields: [],
@@ -109,6 +126,38 @@
                 isLoading: false,
             }
         },
+
+        watch: {
+            name: async function () {
+                this.clearErrors();
+                await this.validate.validateIngredientName(this.name, this.errors);
+                if (this.errors.fields.length !== 0) {
+                    this.updateInvalidInputs();
+                }
+            },
+            price: async function () {
+                this.clearErrors();
+                await this.validate.validateIngredientPrice(this.price, this.errors);
+                if (this.errors.fields.length !== 0) {
+                    this.updateInvalidInputs();
+                }
+            },
+            totalWeight: async function () {
+                this.clearErrors();
+                await this.validate.validateIngredientWeight(parseFloat(this.totalWeight), this.errors);
+                if (this.errors.fields.length !== 0) {
+                    this.updateInvalidInputs();
+                }
+            },
+            categories: async function() {
+                this.clearErrors();
+                if (this.categories.length === 0) {
+                    this.categoryPlaceholder = "Add a new or existing category";
+                } else {
+                    this.categoryPlaceholder = "";
+                }
+            }
+        },
         methods: {
 
 
@@ -118,7 +167,7 @@
                     name: this.name,
                     price: parseFloat(this.price),
                     totalWeight: parseInt(this.totalWeight),
-                    servingSize: parseInt(this.servingSize),
+                    categories: this.categories,
                 };
 
                 this.errors = await this.validate.validateIngredient(ingredient);
@@ -127,13 +176,14 @@
                     let response = await this.api.postIngredient(ingredient);
                     this.isLoading = false;
                     if (response.status === 200) {
-                        this.success();
+                        this.$refs.toast.success("Ingredient", ingredient.name);
+                        this.cleanInputs();
                     } else {
-                        this.danger();
+                        this.$refs.toast.danger();
                     }
                 } else {
                     await this.updateInvalidInputs();
-                    this.danger();
+                    this.$refs.toast.danger();
                 }
 
             },
@@ -156,10 +206,6 @@
                         this.totalWeightHasError = 'is-danger';
                         this.totalWeightErrorMessage = this.errors.messages[i];
                     }
-                    if (field === "servingSize") {
-                        this.servingSizeHasError = 'is-danger';
-                        this.servingSizeErrorMessage = this.errors.messages[i];
-                    }
                 }
             },
 
@@ -167,38 +213,18 @@
              * Clears all error messages.
              */
             clearErrors() {
+                this.errors = {
+                    fields: [],
+                    messages: []
+                };
                 this.nameHasError = "";
                 this.nameErrorMessage = "";
                 this.priceHasError = "";
                 this.priceErrorMessage = "";
                 this.totalWeightHasError = "";
                 this.totalWeightErrorMessage = "";
-                this.totalWeightHasError = "";
-                this.totalWeightErrorMessage = "";
-            },
-
-
-            /**
-             * Tells the user the ingredient was added successfully, and calls cleanInputs().
-             */
-            success() {
-                this.$buefy.toast.open({
-                    message: this.name + " successfully added!",
-                    type: 'is-success',
-                    duration: 5000,
-                });
-                this.cleanInputs();
-            },
-
-            /**
-             * Tells the user the ingredient was not added.
-             */
-            danger() {
-                this.$buefy.toast.open({
-                    duration: 5000,
-                    message: `Something went wrong! Try again.`,
-                    type: 'is-danger'
-                })
+                this.servingSizeHasError = "";
+                this.servingSizeErrorMessage = "";
             },
 
             /**
@@ -206,10 +232,20 @@
              */
             cleanInputs() {
                 this.name = "";
-                this.price = 0;
-                this.totalWeight = 0;
-                this.servingSize = 0;
+                this.price = "";
+                this.totalWeight = "";
+                this.categories = [];
+                this.clearErrors();
             },
+
+            getFilteredCategories(text) {
+                this.filteredCategories = this.defaultCategories.filter((option) => {
+                    return option
+                        .toString()
+                        .toLowerCase()
+                        .indexOf(text.toLowerCase()) >= 0;
+                })
+            }
 
         }
     }
