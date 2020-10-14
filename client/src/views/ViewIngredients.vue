@@ -15,7 +15,7 @@
                                 v-bind:ingredient-price="item.price"
                                 v-bind:ingredient-total-weight="item.totalWeight"
                                 v-bind:ingredient-categories="item.categories"
-                                @deleteIngredient="deleteIngredient(index)"></IngredientCard>
+                                @deleteIngredient="deleteIngredient(index, ingredients1)"></IngredientCard>
                     </div>
                 </div>
                 <div class="tile is-parent is-vertical">
@@ -26,7 +26,7 @@
                                 v-bind:ingredient-price="item.price"
                                 v-bind:ingredient-total-weight="item.totalWeight"
                                 v-bind:ingredient-categories="item.categories"
-                                @deleteIngredient="deleteIngredient(index)"></IngredientCard>
+                                @deleteIngredient="deleteIngredient(index, ingredients2)"></IngredientCard>
                     </div>
                 </div>
                 <div class="tile is-parent is-vertical">
@@ -37,7 +37,7 @@
                                 v-bind:ingredient-price="item.price"
                                 v-bind:ingredient-total-weight="item.totalWeight"
                                 v-bind:ingredient-categories="item.categories"
-                                @deleteIngredient="deleteIngredient(index)"></IngredientCard>
+                                @deleteIngredient="deleteIngredient(index, ingredients3)"></IngredientCard>
                     </div>
                 </div>
 
@@ -95,15 +95,17 @@
             /**
              * Tries to delete an ingredient, on a success (200), the item is removed from the users view also.
              */
-            deleteIngredient(index) {
-                let ingredientToBeDeleted = this.ingredients[index1];
+            deleteIngredient(index, array) {
+                let ingredientToBeDeleted = array[index];
                 try {
                     this.api.deleteIngredient(ingredientToBeDeleted.id);
                     this.$refs.toast.successDeleted(ingredientToBeDeleted.name);
-                    this.ingredients.splice(index, 1);
+                    array.splice(index, 1);
+                    this.$router.go(0);
                 } catch (error) {
                     this.$refs.toast.danger();
                 }
+
             },
 
             /**
