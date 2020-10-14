@@ -101,7 +101,6 @@
                     this.api.deleteIngredient(ingredientToBeDeleted.id);
                     this.$refs.toast.successDeleted(ingredientToBeDeleted.name);
                     array.splice(index, 1);
-                    this.$router.go(0);
                 } catch (error) {
                     this.$refs.toast.danger();
                 }
