@@ -5,14 +5,10 @@
             <div class="header black">
                 News
             </div>
-            <div id="newsItem" v-for="item in this.newsData.articles" :key="item.url">
+            <div id="newsItem" v-for="item in this.newsData.articles">
                 <div class="header black">
                     {{item.title}}.
                 </div>
-
-<!--                <div class="subheader black">-->
-<!--                    {{item.description}}-->
-<!--                </div>-->
             </div>
         </div>
     </div>
