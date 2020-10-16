@@ -6,38 +6,49 @@
             <div class="header welcomeContainer">
                 All Ingredients
             </div>
-            <div class="customContainer foodContainer tile">
-                <div class="tile is-parent is-vertical">
-                    <div v-for="(item, index) in ingredients1" class="tile is-child" :key="item.id">
-                        <IngredientCard
-                                v-bind:ingredient-id="item.id"
-                                v-bind:ingredient-name="item.name"
-                                v-bind:ingredient-price="item.price"
-                                v-bind:ingredient-total-weight="item.totalWeight"
-                                v-bind:ingredient-categories="item.categories"
-                                @deleteIngredient="deleteIngredient(index, ingredients1)"></IngredientCard>
-                    </div>
+            <div class="customContainer">
+                <div>
+                    <nav class="navbar filterBar">
+                        <div class="navbar-brand">
+                        </div>
+
+                        <div class="navbar-menu">
+                            <div class="navbar-start">
+                                <div class="navbar-item">
+                                    <b-field>
+                                        <ion-icon name="search-circle-outline" class="largeIcon"></ion-icon>
+                                        <b-input type="text" placeholder="Search" v-model="searchTerm"></b-input>
+                                    </b-field>
+                                </div>
+                                <div class="navbar-item">
+                                    <b-field label="">
+                                        <b-taginput
+                                                v-model="categorySearch"
+                                                :data="categories"
+                                                @typing=""
+                                                :open-on-focus="true"
+                                                :allow-new="false"
+                                                ellipsis
+                                                placeholder="Enter a tag">
+                                        </b-taginput>
+                                    </b-field>
+                                </div>
+
+                            </div>
+                        </div>
+                    </nav>
                 </div>
-                <div class="tile is-parent is-vertical">
-                    <div v-for="(item, index) in ingredients2" class="tile is-child" :key="item.id">
+
+                <div class="tile itemDisplay is-parent foodContainer">
+                    <div v-for="(item, index) in filteredIngredients" class="" :key="item.id">
                         <IngredientCard
                                 v-bind:ingredient-id="item.id"
                                 v-bind:ingredient-name="item.name"
                                 v-bind:ingredient-price="item.price"
                                 v-bind:ingredient-total-weight="item.totalWeight"
                                 v-bind:ingredient-categories="item.categories"
-                                @deleteIngredient="deleteIngredient(index, ingredients2)"></IngredientCard>
-                    </div>
-                </div>
-                <div class="tile is-parent is-vertical">
-                    <div v-for="(item, index) in ingredients3" class="tile is-child" :key="item.id">
-                        <IngredientCard
-                                v-bind:ingredient-id="item.id"
-                                v-bind:ingredient-name="item.name"
-                                v-bind:ingredient-price="item.price"
-                                v-bind:ingredient-total-weight="item.totalWeight"
-                                v-bind:ingredient-categories="item.categories"
-                                @deleteIngredient="deleteIngredient(index, ingredients3)"></IngredientCard>
+                                @deleteIngredient="deleteIngredient(index, ingredients)"
+                                class="tile is-child"></IngredientCard>
                     </div>
                 </div>
 
@@ -53,7 +64,7 @@
     import NProgress from 'nprogress'
     import 'nprogress/nprogress.css';
     import IngredientCard from "../components/IngredientCard";
-
+    const _ = require('underscore');
     export default {
         name: "ViewIngredients",
         components: {
@@ -68,8 +79,12 @@
                 NProgress.start();
                 NProgress.inc();
                 let ingredientResponse = await this.api.getAllIngredients();
+                let categoryResponse = await this.api.getAllIngredientCategories();
                 this.ingredients = ingredientResponse.data;
-                await this.splitData(3);
+                this.categories = categoryResponse.data;
+                this.filteredIngredients = this.ingredients;
+                this.categoryFiltered = this.ingredients;
+                this.searchFiltered = this.ingredients;
                 NProgress.done();
             } catch (error) {
                 //Cant load response
@@ -79,15 +94,66 @@
             }
 
         },
+        watch: {
+            /**
+             * Filters ingredients based on the searchTerm.
+             */
+            searchTerm: function () {
+                if (this.searchTerm.length === 0) {
+                    this.searchFiltered = this.ingredients;
+                } else {
+                    this.searchFiltered = [];
+                    for (let i = 0; i < this.ingredients.length; i++) {
+                        let ingredient = this.ingredients[i];
+                        if (ingredient.name.toUpperCase().includes(this.searchTerm.toUpperCase())) {
+                            this.searchFiltered.push(ingredient);
+                        } else {
+                            for (let j = 0; j < ingredient.categories.length; j++) {
+                                let category = ingredient.categories[j];
+                                if (category.toUpperCase().includes((this.searchTerm.toUpperCase()))) {
+                                    this.searchFiltered.push(ingredient);
+                                }
+                            }
+                        }
+                    }
+                }
+                this.filteredIngredients = _.intersection(this.searchFiltered, this.categoryFiltered);
+            },
+
+            /**
+             * Filters ingredients based on categories.
+             */
+            categorySearch: function () {
+                if (this.categorySearch.length === 0) {
+                    this.categoryFiltered = this.ingredients;
+                } else {
+                    this.categoryFiltered = [];
+                    for (let i = 0; i < this.categorySearch.length; i++) {
+                        let search = this.categorySearch[i];
+                        for (let j = 0; j < this.ingredients.length; j++) {
+                            let ingredient = this.ingredients[j];
+                            if (ingredient.categories.includes(search)) {
+                                this.categoryFiltered.push(ingredient);
+                            }
+                        }
+                    }
+                }
+                this.filteredIngredients = _.intersection(this.categoryFiltered, this.searchFiltered);
+            }
+        },
 
         data() {
             return {
                 api: "",
                 ingredients: [],
-                ingredients1: [],
-                ingredients2: [],
-                ingredients3: [],
-                category: []
+                filteredIngredients: [],
+                categoryFiltered: [],
+                searchFiltered: [],
+                category: [],
+                searchTerm: "",
+
+                categorySearch: [],
+                categories: [],
             }
         },
 
@@ -106,23 +172,6 @@
                 }
 
             },
-
-            /**
-             * Splits the ingredients into three arrays of roughly equal size.
-             * Adapted from code by Senthe 25 Jul 2018
-             * https://stackoverflow.com/questions/8188548/splitting-a-js-array-into-n-arrays
-             * @returns {[]}
-             */
-            async splitData(parts) {
-                let result = [];
-                for (let i = parts; i > 0; i--) {
-                    result.push(this.ingredients.splice(0, Math.ceil(this.ingredients.length / i)));
-                }
-                this.ingredients1 = result[0];
-                this.ingredients2 = result[1];
-                this.ingredients3 = result[2];
-
-            }
         }
     }
 </script>

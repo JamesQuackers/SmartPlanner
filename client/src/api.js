@@ -129,6 +129,31 @@ export class UserApiClient {
     }
 
     /**
+     * Gets all ingredient categories from the database.
+     * @returns an array of categories objects
+     */
+    async getAllIngredientCategories() {
+        let returnResponse = {};
+        return server.get("/ingredients/categories").then(function (response) {
+            returnResponse = {
+                status: response.status,
+                data: response.data
+            };
+
+            return returnResponse;
+
+        }).catch(function (error) {
+            returnResponse = {
+                status: error.status,
+                data: error
+            };
+
+            return returnResponse;
+
+        });
+    }
+
+    /**
      * Takes an ingredientId and deletes it from the database.
      * @param ingredientId - Id of the ingredient to be deleted
      */

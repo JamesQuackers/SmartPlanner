@@ -4,6 +4,10 @@ import router from './router'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 require('./css/style.css');
+
+Vue.config.ignoredElements = [/^ion-/];
+
+
 Vue.config.productionTip = false;
 
 Vue.use(Buefy);

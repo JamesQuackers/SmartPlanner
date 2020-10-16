@@ -35,6 +35,30 @@ exports.get = async function(req, res) {
     }
 };
 
+exports.getCategories = async function(req, res) {
+    const db = admin.firestore();
+    try {
+        let query = db.collection('ingredients');
+        let response = [];
+        await query.get().then(querySnapshot => {
+            let docs = querySnapshot.docs;
+            for (let doc of docs) {
+                for (let i = 0; i < doc.data().categories.length; i++) {
+                    let category = doc.data().categories[i];
+                    if (!response.includes(category)) {
+                        response.push(category);
+                    }
+
+                }
+
+            }
+        });
+        return res.status(200).send(response);
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+};
+
 exports.delete = async function(req, res) {
     const db = admin.firestore();
     try {

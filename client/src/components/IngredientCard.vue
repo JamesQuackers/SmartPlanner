@@ -1,17 +1,11 @@
 <template>
-    <div class="container">
+    <div class="itemContainer">
         <section class="itemCard">
             <div class="item-left">
                 <div>
                     {{ingredientName}}
                     <b-dropdown ref="dropdown" class="float-right">
                         <ion-icon name="pencil-sharp" slot="trigger" class="clickable"></ion-icon>
-
-                        <span class="ingredientTitle">{{ingredientName}}
-
-                        <ion-icon name="close-circle-outline" class="float-right clickable spanned" v-on:click="$refs.dropdown.toggle()"></ion-icon>
-                        </span>
-
                         <b-dropdown-item aria-role="listitem">
                             <ion-icon name="pencil-sharp" class="inline-icon"></ion-icon>
                             Edit

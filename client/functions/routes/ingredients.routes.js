@@ -5,6 +5,8 @@ module.exports = function (app) {
         .post(ingredients.create);
     app.route('/api/ingredients')
         .get(ingredients.get);
+    app.route('/api/ingredients/categories')
+        .get(ingredients.getCategories);
     app.route('/api/ingredients/:ingredientId')
         .delete(ingredients.delete);
 

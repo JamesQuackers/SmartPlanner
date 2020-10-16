@@ -52,7 +52,6 @@
                                     :allow-new="true"
                                     :open-on-focus="true"
                                     ellipsis
-                                    icon="label"
                                     :placeholder="categoryPlaceholder">
                             </b-taginput>
                         </b-field>

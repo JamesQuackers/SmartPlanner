@@ -138,3 +138,27 @@ ion-icon {
 .spanned {
     padding-right: 2%;
 }
+
+.itemDisplay {
+    flex-wrap: wrap;
+    margin:  auto;
+
+}
+
+.itemContainer {
+    width: 27.3vw;
+    padding: inherit;
+}
+
+
+.filterBar {
+    border-radius: 5px;
+}
+
+.largeIcon {
+    position: relative;
+    top: 0;
+    left: -5px;
+    margin-right: 1%;
+    font-size: 40px;
+}
