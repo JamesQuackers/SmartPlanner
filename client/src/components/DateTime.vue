@@ -1,5 +1,5 @@
 <template>
-    <div class="header">
+    <div class="header customContainer black">
         <div class="date">
             {{day}}, {{date}} {{month}}
         </div>

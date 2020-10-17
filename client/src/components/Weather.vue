@@ -1,5 +1,5 @@
 <template>
-    <div class="header">
+    <div class="header customContainer black">
         <div>
             <img v-bind:src="icon" alt=" ">
         </div>

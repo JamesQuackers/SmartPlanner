@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <div class="container is-widescreen customContainer">
+        <div class="container customContainer">
             <div class="header black">
                 News
             </div>

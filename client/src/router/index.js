@@ -7,6 +7,7 @@ import 'nprogress/nprogress.css';
 import Food from "../views/Food";
 import AddIngredient from "../views/AddIngredient";
 import ViewIngredients from "../views/ViewIngredients";
+import AddRecipe from "../views/AddRecipe";
 
 Vue.use(VueRouter);
 
@@ -30,10 +31,16 @@ const routes = [
         component: ViewIngredients
     },
     {
+      path: "/recipe/add",
+      name: 'AddRecipe',
+      component: AddRecipe
+    },
+    {
         path: '/food',
         name: 'Food',
         component: Food
     },
+
 ];
 
 const router = new VueRouter({

@@ -15,7 +15,7 @@
 
                 <div class="column">
 
-                  <div>
+                  <div class="timeContainer">
                     <date-time></date-time>
                   </div>
                   <div>
