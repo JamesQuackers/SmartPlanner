@@ -80,10 +80,6 @@ Custom nprogress css
     height: 100px;
 }
 
-#submitButton {
-    alignment: right;
-}
-
 .itemCard {
     background: #eeeeee;
     margin: 1%;
@@ -132,24 +128,12 @@ ion-icon {
     cursor: pointer;
 }
 
-.ingredientTitle {
-    padding-left: 3%;
-}
-
-.spanned {
-    padding-right: 2%;
-}
-
-.itemDisplay {
-    flex-wrap: wrap;
-    margin:  auto;
-
-}
-
-.itemContainer {
-    width: 27.3vw;
-    padding: inherit;
-}
+.auto-grid {
+    --auto-grid-min-size: 12rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--auto-grid-min-size), 1fr));
+    grid-gap: 1rem;
+  }
 
 .timeContainer {
     margin-bottom: 5%;

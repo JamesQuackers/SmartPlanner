@@ -11,7 +11,6 @@ Vue.config.ignoredElements = [/^ion-/];
 Vue.config.productionTip = false;
 
 Vue.use(Buefy);
-
 new Vue({
   router,
   render: function (h) { return h(App) }

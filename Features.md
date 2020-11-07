@@ -27,3 +27,6 @@
 - [ ] F1 I can schedule recipes over a week.
 - [ ] F2 I am able to see my food schedule on the main page.
 
+## Stats
+
+- [ ] F1 I want to see the distribution of my meals over the week in statistics, for example, I could see what categories of ingredients my meals are made out of.

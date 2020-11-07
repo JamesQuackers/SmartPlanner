@@ -1,7 +1,7 @@
 <template>
-    <div class="itemContainer">
+    <div class="">
         <section class="itemCard">
-            <div class="item-left">
+            <div class="">
                 <div>
                     {{ingredientName}}
                     <b-dropdown ref="dropdown" class="float-right">

@@ -39,7 +39,7 @@
                     </nav>
                 </div>
 
-                <div class="tile itemDisplay is-parent foodContainer">
+                <div class="auto-grid foodContainer">
                     <div v-for="(item, index) in filteredIngredients" class="" :key="item.id">
                         <IngredientCard
                                 v-bind:ingredient-id="item.id"

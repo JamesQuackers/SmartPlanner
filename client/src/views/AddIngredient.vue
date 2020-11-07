@@ -44,7 +44,7 @@
                         Categories
                     </div>
                     <div class="column">
-                        <b-field label="">
+                        <b-field :type="this.categoriesHasError" :message="this.categoriesErrorMessage">
                             <b-taginput
                                     v-model="categories"
                                     :data="filteredCategories"
@@ -120,6 +120,8 @@
                 totalWeightErrorMessage: "",
                 servingSizeHasError: "",
                 servingSizeErrorMessage: "",
+                categoriesHasError: "",
+                categoriesErrorMessage: "",
 
                 //buefy
                 isLoading: false,
@@ -150,6 +152,10 @@
             },
             categories: async function() {
                 this.clearErrors();
+                await this.validate.validateIngredientCategories(this.categories, this.errors);
+                if (this.errors.fields.length !== 0) {
+                    this.updateInvalidInputs();
+                }
                 if (this.categories.length === 0) {
                     this.categoryPlaceholder = "Add a new or existing category";
                 } else {
@@ -204,6 +210,10 @@
                     if (field === "totalWeight") {
                         this.totalWeightHasError = 'is-danger';
                         this.totalWeightErrorMessage = this.errors.messages[i];
+                    }
+                    if (field === "categories") {
+                        this.categoriesHasError = 'is-danger';
+                        this.categoriesErrorMessage = this.errors.messages[i];
                     }
                 }
             },

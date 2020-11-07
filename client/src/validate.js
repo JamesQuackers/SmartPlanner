@@ -51,6 +51,13 @@ export class Validate {
         }
     }
 
+    async validateIngredientCategories(categories, errors) {
+        if (categories.length > 5) {
+            errors.fields.push("categories");
+            errors.messages.push("Maximum of 5 categories allowed.");
+        }
+    }
+
     async validateIngredient(ingredient) {
         let errors = {
             fields: [],
@@ -59,7 +66,7 @@ export class Validate {
         this.validateIngredientName(ingredient.name, errors);
         this.validateIngredientPrice(ingredient.price, errors);
         this.validateIngredientWeight(ingredient.totalWeight, errors);
-
+        this.validateIngredientCategories(ingredient.categories, errors);
         return errors;
 
     }
